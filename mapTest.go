@@ -29,4 +29,8 @@ func main() {
 		},
 	}
 	fmt.Println(mm)
+
+	for v := range mm {
+		fmt.Println("key =", v, "   value =", mm[v])
+	}
 }
