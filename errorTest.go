@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"os"
+)
 
 func testErr(id int) (int, error) {
 
@@ -12,6 +16,9 @@ func testErr(id int) (int, error) {
 
 func main() {
 
+	var w io.Writer
+	w = os.Stdout
+
 	_, err := testErr(1)
 	if err != nil {
 		fmt.Println(err)
@@ -22,4 +29,13 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	v, ok := w.(*os.File)
+	//v, ok := w.(*bytes.Buffer)
+	if ok {
+		fmt.Println(v)
+	} else {
+		fmt.Println("断言失败")
+	}
+
 }
