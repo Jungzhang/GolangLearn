@@ -19,11 +19,11 @@ func main() {
 			log.Println(err)
 			continue
 		}
-		go handerConn(conn)
+		go handleEcho(conn)
 	}
 }
 
-func handerConn(conn net.Conn) {
+func handleEcho(conn net.Conn) {
 	input := bufio.NewScanner(conn)
 	for input.Scan() {
 		fmt.Fprintln(conn, input.Text())
