@@ -12,24 +12,31 @@ func main() {
 
 	go func() {
 		i := 0
-		for {
+		for i <= 5 {
 			time.Sleep(time.Second)
-			i++
 			naturals <- i
+			i++
 		}
+		close(naturals)
 	}()
 
 	go func() {
 		for {
-			x := <-naturals
+			x, ok := <-naturals
+			if !ok {
+				break
+			}
 			squares <- x * x
 		}
-
+		close(squares)
 	}()
 
 	for {
-		for {
-			fmt.Println(<-squares)
+		x, ok := <-squares
+		if ok {
+			fmt.Println(x)
+		} else {
+			break
 		}
 	}
 }
