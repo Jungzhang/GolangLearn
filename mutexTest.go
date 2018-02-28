@@ -18,7 +18,7 @@ func add(result *int, group *sync.WaitGroup) {
 
 func main() {
 
-	const counter = 2
+	const counter = 4
 	result := 0
 	var group sync.WaitGroup
 
