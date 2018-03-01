@@ -10,5 +10,14 @@
     密　码：<input type="password" name="passwd"><br>
     <input type="submit" value="登陆">
 </form>
+
+<br>-----------------------------------<br>
+
+<form action="/upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="uploadfile"/><br>
+    <input type="hidden" name="token" value="{{.}}"/> <br>
+    <input type="submit" value="上传"><br>
+</form>
+
 </body>
 </html>
