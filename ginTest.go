@@ -3,6 +3,8 @@ package main
 import (
 	"gopkg.in/gin-gonic/gin.v1"
 	"fmt"
+	"text/template"
+	"net/http"
 )
 
 func main() {
@@ -38,11 +40,22 @@ func main() {
 	s.ListenAndServe()
 	*/
 
+	router.GET("/", urlRoot)
+
+	// GET方法
 	// URL参数
 	router.GET("someGet", urlGet)
 	// API参数
 	router.GET("someGet/:name/:sex", apiGet)
+
+	// POST方法
+	router.POST("somePost", somePost)
+
 	router.Run(":8080")
+
+}
+
+func urlRoot(t *gin.Context) {
 
 }
 
@@ -60,4 +73,12 @@ func apiGet(t *gin.Context) {
 	sex := t.Param("sex")
 
 	fmt.Printf("api param name : %v   sex : %v\n", name, sex)
+}
+
+func somePost(t *gin.Context) {
+
+	name := t.PostForm("name")
+	sex := t.PostForm("sex")
+
+	fmt.Printf("post param name : %v   sex : %v\n", name, sex)
 }
