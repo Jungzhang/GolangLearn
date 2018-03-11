@@ -3,6 +3,7 @@ package main
 import (
 	"gopkg.in/gin-gonic/gin.v1"
 	"fmt"
+	"net/http"
 )
 
 func main() {
@@ -38,6 +39,7 @@ func main() {
 	s.ListenAndServe()
 	*/
 
+	router.LoadHTMLGlob("./index.html")
 	router.GET("/", urlRoot)
 
 	// GET方法
@@ -54,7 +56,7 @@ func main() {
 }
 
 func urlRoot(t *gin.Context) {
-
+	t.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 func urlGet(t *gin.Context) {
