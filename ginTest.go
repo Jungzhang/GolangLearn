@@ -3,8 +3,6 @@ package main
 import (
 	"gopkg.in/gin-gonic/gin.v1"
 	"fmt"
-	"text/template"
-	"net/http"
 )
 
 func main() {
