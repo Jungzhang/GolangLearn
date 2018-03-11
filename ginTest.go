@@ -4,6 +4,8 @@ import (
 	"gopkg.in/gin-gonic/gin.v1"
 	"fmt"
 	"net/http"
+	"os"
+	"io"
 )
 
 func main() {
@@ -44,12 +46,15 @@ func main() {
 
 	// GET方法
 	// URL参数
-	router.GET("someGet", urlGet)
+	router.GET("/someGet", urlGet)
 	// API参数
-	router.GET("someGet/:name/:sex", apiGet)
+	router.GET("/someGet/:name/:sex", apiGet)
 
 	// POST方法
-	router.POST("somePost", somePost)
+	router.POST("/somePost", somePost)
+
+	// 文件上传
+	router.POST("/uploadSingleFile", uploadSingFile)
 
 	router.Run(":8080")
 
@@ -81,4 +86,32 @@ func somePost(t *gin.Context) {
 	sex := t.PostForm("sex")
 
 	fmt.Printf("post param name : %v   sex : %v\n", name, sex)
+}
+
+func uploadSingFile(c *gin.Context) {
+
+	file, header, err := c.Request.FormFile("upload")
+	if err != nil {
+		fmt.Println("err :", err)
+		c.String(http.StatusBadRequest, "Bad request")
+		return
+	}
+
+	filename := header.Filename
+	fmt.Println("filename : " + filename)
+
+	out, err := os.Create(filename)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Internal Server Error")
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, file)
+	if err != nil {
+		fmt.Println("err :", err)
+		c.String(http.StatusInternalServerError, "Internal Server Error")
+		return
+	}
+
+	c.String(http.StatusOK, "upload file successful")
 }

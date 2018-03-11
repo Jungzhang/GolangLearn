@@ -6,9 +6,16 @@
 </head>
 <body>
 <form method="post" action="/somePost">
-    姓  名：<input name="name" type="text"><br>
-    性  别：<input name="sex" type="text"><br>
+    姓 名：<input name="name" type="text"><br>
+    性 别：<input name="sex" type="text"><br>
     <input value="提交" type="submit">
 </form>
+<br>
+<br>
+<form method="post" enctype="multipart/form-data" action="/uploadSingleFile">
+    选择文件：<input name="upload" type="file">
+    <input type="submit" value="提交">
+</form>
+
 </body>
 </html>
