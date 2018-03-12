@@ -134,6 +134,10 @@ func uploadMultiFile(c *gin.Context) {
 	for i := range files {
 
 		file, err := files[i].Open()
+		// 注册defer, 在这个循环中实际上是注册了多次defer
+		// 这里的写法不是最优的,因为defer在return的时候才会调用
+		// 所以在该func return前会造成fd的浪费, 从而降低并发
+		// 可以将这一部分内容封装成func,从而提高并发
 		defer file.Close()
 		if err != nil {
 			log.Println(err)
