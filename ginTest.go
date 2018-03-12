@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"io"
+	"log"
+	"time"
 )
 
 func main() {
@@ -53,8 +55,11 @@ func main() {
 	// POST方法
 	router.POST("/somePost", somePost)
 
-	// 文件上传
+	// 文件上传(单个文件)
 	router.POST("/uploadSingleFile", uploadSingFile)
+
+	// 文件上传(多个文件)
+	router.POST("/uploadMultiFile", uploadMultiFile)
 
 	router.Run(":8080")
 
@@ -92,7 +97,7 @@ func uploadSingFile(c *gin.Context) {
 
 	file, header, err := c.Request.FormFile("upload")
 	if err != nil {
-		fmt.Println("err :", err)
+		log.Println("err :", err)
 		c.String(http.StatusBadRequest, "Bad request")
 		return
 	}
@@ -108,10 +113,45 @@ func uploadSingFile(c *gin.Context) {
 
 	_, err = io.Copy(out, file)
 	if err != nil {
-		fmt.Println("err :", err)
+		log.Println("err :", err)
 		c.String(http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 
 	c.String(http.StatusOK, "upload file successful")
+}
+
+func uploadMultiFile(c *gin.Context) {
+
+	err := c.Request.ParseMultipartForm(102400)
+	if err != nil {
+		log.Println(err)
+	}
+
+	formData := c.Request.MultipartForm
+
+	files := formData.File["upload"]
+	for i := range files {
+
+		file, err := files[i].Open()
+		defer file.Close()
+		if err != nil {
+			log.Println(err)
+		}
+
+		out, err := os.Create(files[i].Filename)
+		defer out.Close()
+		if err != nil {
+			log.Println(err)
+		}
+
+		_, err = io.Copy(out, file)
+		if err != nil {
+			log.Println(err)
+		}
+
+		time.Sleep(time.Second * 3)
+
+		c.String(http.StatusCreated, "upload successful   ")
+	}
 }

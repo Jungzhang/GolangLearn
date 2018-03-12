@@ -5,16 +5,30 @@
     <title>哈哈哈哈</title>
 </head>
 <body>
+<h1>post数据测试</h1>
 <form method="post" action="/somePost">
     姓 名：<input name="name" type="text"><br>
     性 别：<input name="sex" type="text"><br>
     <input value="提交" type="submit">
 </form>
+
 <br>
 <br>
+
+<h1>单个文件上传测试</h1>
 <form method="post" enctype="multipart/form-data" action="/uploadSingleFile">
     选择文件：<input name="upload" type="file">
     <input type="submit" value="提交">
+</form>
+
+<br>
+<br>
+<h1>多个文件上传测试</h1>
+<form method="post" enctype="multipart/form-data" action="/uploadMultiFile">
+    选择文件：<input name="upload" type="file">
+            <input name="upload" type="file">
+            <input name="upload" type="file">
+    <input value="提交" type="submit">
 </form>
 
 </body>
