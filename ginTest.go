@@ -84,6 +84,11 @@ func main() {
 		c.Redirect(http.StatusMovedPermanently, "http://www.baidu.com")
 	})
 
+	// 静态文件服务测试
+	router.StaticFS("/showDir", http.Dir("./assert"))
+	router.Static("/files", "./assert")
+	router.StaticFile("/image", "./assert/1.png")
+
 	router.Run(":8080")
 
 }
