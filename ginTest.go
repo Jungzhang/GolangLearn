@@ -223,7 +223,19 @@ func testBindJSON(c *gin.Context) {
 	-d '{"name": "Raiden", "age": 22, "sex": "nan", "stu": {"class": "ruanjian", "grade": "14ji"}}'
 	*/
 
+	// 返回JSON
 	c.JSON(http.StatusOK, gin.H{
+		"name": user.Name,
+		"age":  user.Age,
+		"sex":  user.Sex,
+		"studen":
+		gin.H{
+			"class": user.Stu.Class,
+			"grade": user.Stu.Grade,
+		}})
+
+	// 返回XML
+	c.XML(http.StatusOK, gin.H{
 		"name": user.Name,
 		"age":  user.Age,
 		"sex":  user.Sex,
