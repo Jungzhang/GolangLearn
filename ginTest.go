@@ -8,7 +8,6 @@ import (
 	"io"
 	"log"
 	"time"
-	"github.com/gin-gonic/gin/binding"
 )
 
 type user struct {
@@ -202,21 +201,27 @@ func testBindJSON(c *gin.Context) {
 
 	var user user
 	var err error
+	/*
+		contentType := c.Request.Header.Get("Content-Type")
 
-	contentType := c.Request.Header.Get("Content-Type")
+		fmt.Println("context/type : " + contentType)
 
-	fmt.Println("context/type : " + contentType)
-
-	switch contentType {
-	case "application/json":
-		err = c.BindJSON(&user)
-	case "application/x-www-form-urlencoded":
-		err = c.BindWith(&user, binding.Form)
-	}
-
+		switch contentType {
+		case "application/json":
+			err = c.BindJSON(&user)
+		case "application/x-www-form-urlencoded":
+			err = c.BindWith(&user, binding.Form)
+		}
+	*/
+	err = c.Bind(&user)
 	if err != nil {
 		log.Println(err)
 	}
+
+	/*
+	curl -X POST http://127.0.0.1:8080/testBindJSON -H "Content-Type:application/json"
+	-d '{"name": "Raiden", "age": 22, "sex": "nan", "stu": {"class": "ruanjian", "grade": "14ji"}}'
+	*/
 
 	c.JSON(http.StatusOK, gin.H{
 		"name": user.Name,
