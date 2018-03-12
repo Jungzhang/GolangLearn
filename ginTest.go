@@ -8,7 +8,20 @@ import (
 	"io"
 	"log"
 	"time"
+	"github.com/gin-gonic/gin/binding"
 )
+
+type user struct {
+	Name string `form:"name" json:"name" binding:"required"`
+	Sex  string `form:"sex" json:"sex" binding:"required"`
+	Age  int    `form:"age" json:"age"`
+	Stu  student
+}
+
+type student struct {
+	Class string `form:"class" json:"class" binding:"required"`
+	Grade string `form:"grade" json:"grade"`
+}
 
 func main() {
 
@@ -61,8 +74,11 @@ func main() {
 	// 文件上传(多个文件)
 	router.POST("/uploadMultiFile", uploadMultiFile)
 
-	// JSON实例
+	// 返回JSON示例
 	router.POST("/testJSON", testJSON)
+
+	// 参数绑定(JSON)
+	router.POST("/testBindJSON", testBindJSON)
 
 	router.Run(":8080")
 
@@ -179,5 +195,36 @@ func testJSON(c *gin.Context) {
 		"student": gin.H{
 			"class": class,
 			"grade": grade,
+		}})
+}
+
+func testBindJSON(c *gin.Context) {
+
+	var user user
+	var err error
+
+	contentType := c.Request.Header.Get("Content-Type")
+
+	fmt.Println("context/type : " + contentType)
+
+	switch contentType {
+	case "application/json":
+		err = c.BindJSON(&user)
+	case "application/x-www-form-urlencoded":
+		err = c.BindWith(&user, binding.Form)
+	}
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"name": user.Name,
+		"age":  user.Age,
+		"sex":  user.Sex,
+		"studen":
+		gin.H{
+			"class": user.Stu.Class,
+			"grade": user.Stu.Grade,
 		}})
 }
