@@ -61,6 +61,9 @@ func main() {
 	// 文件上传(多个文件)
 	router.POST("/uploadMultiFile", uploadMultiFile)
 
+	// JSON实例
+	router.POST("/testJSON", testJSON)
+
 	router.Run(":8080")
 
 }
@@ -158,4 +161,23 @@ func uploadMultiFile(c *gin.Context) {
 
 		c.String(http.StatusCreated, "upload successful   ")
 	}
+}
+
+func testJSON(c *gin.Context) {
+
+	name := c.PostForm("name")
+	sex := c.PostForm("sex")
+	age := c.PostForm("age")
+
+	class := c.PostForm("class")
+	grade := c.PostForm("grade")
+
+	c.JSON(http.StatusOK, gin.H{
+		"name": name,
+		"sex":  sex,
+		"age":  age,
+		"student": gin.H{
+			"class": class,
+			"grade": grade,
+		}})
 }
