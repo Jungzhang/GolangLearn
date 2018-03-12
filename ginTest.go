@@ -79,6 +79,11 @@ func main() {
 	// 参数绑定(JSON)
 	router.POST("/testBindJSON", testBindJSON)
 
+	// 重定向测试
+	router.GET("/testRedirect", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "http://www.baidu.com")
+	})
+
 	router.Run(":8080")
 
 }
