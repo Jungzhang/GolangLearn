@@ -1,12 +1,40 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"os"
+	"log"
+	"encoding/json"
+)
 
 
+type DbCfg struct {
+	host    string `json:"host"`
+	port    int    `json:"port"`
+	dbName  string `json:"db_name"`
+	user    string `json:"user"`
+	pass    string `json:"pass"`
+	charset string `json:"charset"`
+}
 
 func main() {
-	i, j := 1, 2
-	fmt.Println("i = ", i, "   j = ", j)
-	i, j = j, i
-	fmt.Println("i = ", i, "  j = ", j)
+
+	data, err := ioutil.ReadFile(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(data))
+
+	var db DbCfg
+
+	err = json.Unmarshal(data, &db)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(db)
+
 }
