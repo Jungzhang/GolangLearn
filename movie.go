@@ -26,4 +26,12 @@ func main()  {
 	}
 
 	fmt.Printf("%s\n", data)
+
+	var m = new ([]Movie)
+	err = json.Unmarshal(data, m)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(m)
 }
