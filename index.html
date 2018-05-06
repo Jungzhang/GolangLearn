@@ -5,10 +5,62 @@
     <title>哈哈哈哈</title>
 </head>
 <body>
+<h1>post数据测试</h1>
 <form method="post" action="/somePost">
-    姓  名：<input type="text"><br>
-    性  别：<input type="text"><br>
+    姓 名：<input name="name" type="text"><br>
+    性 别：<input name="sex" type="text"><br>
     <input value="提交" type="submit">
 </form>
+
+<br>
+<br>
+
+<h1>测试输出JSON</h1>
+<form method="post" action="/testJSON">
+    姓 名：<input name="name" type="text"><br>
+    性 别：<input name="sex" type="text"><br>
+    年 龄：<input name="age" type="text"><br>
+    班 级：<input name="class" type="text"><br>
+    年 级：<input name="grade" type="text"><br>
+    <input type="submit" value="提交">
+</form>
+
+<br>
+<br>
+
+<h1>测试JSON的参数绑定</h1>
+<form action="/testBindJSON" method="post">
+    姓 名：<input name="name" type="text"><br>
+    性 别：<input name="sex" type="text"><br>
+    年 龄：<input name="age" type="text"><br>
+    班 级：<input name='class' type="text"><br>
+    年 级：<input name="grade" type="text"><br>
+    <input type="submit" value="提交">
+</form>
+
+<br>
+<br>
+
+<h1>单个文件上传测试</h1>
+<form method="post" enctype="multipart/form-data" action="/uploadSingleFile">
+    选择文件：<input name="upload" type="file">
+    <input type="submit" value="提交">
+</form>
+
+<br>
+<br>
+<h1>多个文件上传测试</h1>
+<form method="post" enctype="multipart/form-data" action="/uploadMultiFile">
+    选择文件：<input name="upload" type="file">
+            <input name="upload" type="file">
+            <input name="upload" type="file">
+    <input value="提交" type="submit">
+</form>
+
+<br>
+<br>
+
+<h1><a href="/testRedirect">点我测试重定向</a> </h1>
+
 </body>
 </html>
